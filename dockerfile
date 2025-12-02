@@ -1,0 +1,17 @@
+FROM golang:1.25.4-alpine3.22
+
+WORKDIR /server/golang
+
+ADD go.mod go.sum /server/golang/
+
+RUN go mod download
+
+RUN go install github.com/air-verse/air
+
+ADD . /server/golang/
+
+EXPOSE 8085
+
+ENV PATH="/go/bin:${PATH}"
+
+CMD [ "air" ]
