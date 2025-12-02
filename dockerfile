@@ -10,7 +10,7 @@ RUN go install github.com/air-verse/air
 
 ADD . /server/golang/
 
-EXPOSE 8085
+EXPOSE 8088
 
 ENV PATH="/go/bin:${PATH}"
 

@@ -6,16 +6,18 @@ services:
     volumes:
       - ./:/server/golang
     restart: always
+    depends_on:
+      - db
     env_file:
       - .env
 
   db:
-    image: mysql:5.7
+    image: mysql:8.0.40
     ports:
-      - "${MYSQL_PORT}:${MYSQL_PORT}"
+      - "3308:${MYSQL_DB_PORT}"
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DB_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DB_DATABASE}
     volumes:
       - ./project-data/mysql:/var/lib/mysql
     restart: always
@@ -27,8 +29,10 @@ services:
     ports:
       - "8080:80"
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DB_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DB_DATABASE}
+      PMA_ARBITRARY: 1
+      UPLOAD_LIMIT: 1024M
     restart: always
     env_file:
       - .env
