@@ -16,6 +16,7 @@ func main() {
 	PORT := os.Getenv("SERVER_PORT")
 	app := fiber.New()
 
+	routes.AuthRouter(app.Group("/api/auth"))
 	routes.UsersRouter(app.Group("/api/users"))
 
 	app.Listen(":" + PORT)
