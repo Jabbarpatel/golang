@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"fmt"
 	"strings"
 	"time"
 
@@ -11,15 +10,36 @@ import (
 
 var JWT_KEY = []byte("SoftwareDeveloper")
 
-func LoginRequired(c *fiber.Ctx) error {
+func VerifyToken(Token string) jwt.MapClaims {
+	ValidToken, err := jwt.Parse(Token, func(t *jwt.Token) (any, error) {
+		return JWT_KEY, nil
+	})
 
-	Headers := c.Get("Authorization")
-	if Headers == "" {
-		return c.Status(fiber.StatusUnauthorized).JSON("Missing authorization")
+	if err != nil || !ValidToken.Valid {
+		panic(fiber.NewError(fiber.ErrBadRequest.Code, err.Error()))
 	}
-	Token := strings.Split(Headers, " ")[1]
-	fmt.Println(Token)
-	return c.Next()
+	Claims := ValidToken.Claims.(jwt.MapClaims)
+	return Claims
+}
+
+func LoginRequired(AllowedRoles []string) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		Headers := c.Get("Authorization")
+		if Headers == "" {
+			return c.Status(403).JSON("Missing Authorization")
+		}
+
+		Token := strings.Split(Headers, " ")[1]
+		Claims := VerifyToken(Token)
+		RequestedRole := Claims["Role"]
+
+		for _, v := range AllowedRoles {
+			if v == RequestedRole {
+				return c.Next()
+			}
+		}
+		return c.Status(403).JSON("Access denied: insufficient permissions")
+	}
 }
 
 func GenerateJWT(UserName string, Role string) string {
@@ -29,6 +49,7 @@ func GenerateJWT(UserName string, Role string) string {
 		"exp":      time.Now().Add(time.Hour * 24).Unix(),
 		"iat":      time.Now().Unix(),
 	}
+
 	Token := jwt.NewWithClaims(jwt.SigningMethodHS256, Claims)
 	SignedToken, _ := Token.SignedString(JWT_KEY)
 	return SignedToken

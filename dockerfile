@@ -4,7 +4,7 @@ WORKDIR /server/golang
 
 ADD go.mod go.sum /server/golang/
 
-RUN go mod download && go install github.com/air-verse/air
+RUN go mod download && go install github.com/air-verse/air && go install github.com/swaggo/swag/cmd/swag@latest
 
 ADD . /server/golang/
 

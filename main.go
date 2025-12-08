@@ -2,13 +2,21 @@ package main
 
 import (
 	"backend/config"
+	_ "backend/docs"
 	"backend/routes"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/swagger"
 	"github.com/joho/godotenv"
 )
+
+// @title Fiber API
+// @version 1.0
+// @description This is a Yellow Book API documentation.
+// @host localhost:8088
+// @BasePath /api
 
 func main() {
 	godotenv.Load()
@@ -31,6 +39,7 @@ func main() {
 	})
 
 	app.Use(recover.New())
+	app.Get("/swagger/*", swagger.HandlerDefault)
 
 	routes.AuthRouter(app.Group("/api/auth"))
 	routes.UsersRouter(app.Group("/api/users"))
