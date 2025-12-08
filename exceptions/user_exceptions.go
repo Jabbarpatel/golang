@@ -1,3 +1,11 @@
 package exceptions
 
-var UserNotFound string = "User not found"
+import "fmt"
+
+func UserAlreadyExists(UserName string) string {
+	return fmt.Sprintf("%s This user name is already taken", UserName)
+}
+
+func UserNotFound(UserName string) string {
+	return fmt.Sprintf("No user found with name %s", UserName)
+}
