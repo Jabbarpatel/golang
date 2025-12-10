@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/swagger"
 	"github.com/joho/godotenv"
@@ -38,6 +39,7 @@ func main() {
 		},
 	})
 
+	app.Use(cors.New())
 	app.Use(recover.New())
 	app.Get("/swagger/*", swagger.HandlerDefault)
 
