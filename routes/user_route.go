@@ -40,7 +40,7 @@ func UsersRouter(Router fiber.Router) {
 		ID, _ := c.ParamsInt("id")
 		err := user_service.DeactivateUser(ID)
 		if err != nil {
-			return nil
+			return err
 		}
 		return c.Status(constants.STATUS_CODES.OK).JSON(constants.STATUS.SUCCESS)
 	})
