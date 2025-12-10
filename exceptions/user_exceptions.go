@@ -6,6 +6,6 @@ func UserAlreadyExists(UserName string) string {
 	return fmt.Sprintf("%s This user name is already taken", UserName)
 }
 
-func UserNotFound(UserName string) string {
-	return fmt.Sprintf("No user found with name %s", UserName)
+func UserNotFound() string {
+	return "User not found"
 }

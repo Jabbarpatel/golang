@@ -1,8 +1,19 @@
 package constants
 
-type StatusType string
+var Status = struct {
+	SUCCESS string
+	ERROR   string
+}{
+	SUCCESS: "success",
+	ERROR:   "error",
+}
 
-const (
-	SUCCESS StatusType = "success"
-	ERROR   StatusType = "error"
-)
+var Roles = struct {
+	ADMIN     string
+	USER      string
+	DEVELOPER string
+}{
+	ADMIN:     "admin",
+	USER:      "user",
+	DEVELOPER: "developer",
+}

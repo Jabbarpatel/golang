@@ -12,3 +12,10 @@ type CreateUserRequestElements struct {
 	ContactInfo string `json:"ContactInfo"`
 	RoleID      int    `json:"RoleID"`
 }
+
+type UpdateUserRequestElement struct {
+	ID          string `json:"ID"`
+	UserName    string `json:"UserName"`
+	ContactInfo string `json:"ContactInfo"`
+	RoleID      int    `json:"RoleID"`
+}

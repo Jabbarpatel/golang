@@ -22,3 +22,19 @@ func CreateUser(UserName string, Password string, CreatedBy string, ContactInfo 
 	HashedPassword := utils.GenerateHashString(Password)
 	controllers.CreateUser(UserName, HashedPassword, CreatedBy, ContactInfo, ValidRole.Role)
 }
+
+func DeactivateUser(ID int) {
+	User := controllers.GetUserByID(ID)
+	if User == nil {
+		panic(fiber.NewError(fiber.ErrConflict.Code, exceptions.UserNotFound()))
+	}
+	controllers.DeactivateUser(ID)
+}
+
+func ReactivateUser(ID int) {
+	User := controllers.GetUserByID(ID)
+	if User == nil {
+		panic(fiber.NewError(fiber.ErrConflict.Code, exceptions.UserNotFound()))
+	}
+	controllers.ReactivateUser(ID)
+}

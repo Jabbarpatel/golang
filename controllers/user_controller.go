@@ -23,6 +23,15 @@ func GetUserByName(UserName string) *models.Users {
 	return &User
 }
 
+func GetUserByID(ID int) *models.Users {
+	var User models.Users
+	Result := config.DB.Table("users").Where(&models.Users{ID: ID}).First(&User)
+	if Result.RowsAffected == 0 {
+		return nil
+	}
+	return &User
+}
+
 func CreateUser(UserName string, Password string, CreatedBy string, ContactInfo string, Role string) {
 	NewUser := models.Users{
 		UserName:    UserName,
@@ -32,6 +41,28 @@ func CreateUser(UserName string, Password string, CreatedBy string, ContactInfo 
 		Role:        Role,
 	}
 	if err := config.DB.Create(&NewUser).Error; err != nil {
+		panic(fiber.NewError(fiber.ErrInternalServerError.Code, err.Error()))
+	}
+}
+
+func DeactivateUser(ID int) {
+	if err := config.DB.Table("users").Where(&models.Users{ID: ID}).Update("is_active", false).Error; err != nil {
+		panic(fiber.NewError(fiber.ErrInternalServerError.Code, err.Error()))
+	}
+}
+
+func ReactivateUser(ID int) {
+	if err := config.DB.Table("users").Where(&models.Users{ID: ID}).Update("is_active", true).Error; err != nil {
+		panic(fiber.NewError(fiber.ErrInternalServerError.Code, err.Error()))
+	}
+}
+
+func UpdateUser(ID int, UserName string, ContactInfo string, Role string, Active int) {
+	if err := config.DB.Table("users").Where(&models.Users{ID: ID}).Updates(map[string]interface{}{"user_name": UserName,
+		"contact_info": ContactInfo,
+		"role":         Role,
+		"is_active":    Active,
+	}).Error; err != nil {
 		panic(fiber.NewError(fiber.ErrInternalServerError.Code, err.Error()))
 	}
 }
