@@ -27,7 +27,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
-      - "8080:80"
+      - "8082:80"
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_DB_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DB_DATABASE}

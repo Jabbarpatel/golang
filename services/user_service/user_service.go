@@ -1,8 +1,6 @@
 package user_service
 
 import (
-	"fmt"
-
 	"backend/controllers"
 	"backend/exceptions"
 	"backend/utils"
@@ -26,7 +24,6 @@ func CreateUser(UserName string, Password string, CreatedBy string, ContactInfo 
 
 func DeactivateUser(ID int) error {
 	User := controllers.GetUserByID(ID)
-	fmt.Println(User)
 	if User == nil {
 		return exceptions.UserNotFound()
 	}
