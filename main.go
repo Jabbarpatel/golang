@@ -1,10 +1,12 @@
 package main
 
 import (
+	"os"
+
 	"backend/config"
 	_ "backend/docs"
+	"backend/middlewares"
 	"backend/routes"
-	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -26,17 +28,7 @@ func main() {
 	PORT := os.Getenv("SERVER_PORT")
 
 	app := fiber.New(fiber.Config{
-		ErrorHandler: func(c *fiber.Ctx, err error) error {
-			statusCode := fiber.ErrInternalServerError.Code
-			if e, ok := err.(*fiber.Error); ok {
-				statusCode = e.Code
-			}
-			c.Set("Cache-Control", "no-cache")
-			return c.Status(statusCode).JSON(fiber.Map{
-				"status":  "error",
-				"message": err.Error(),
-			})
-		},
+		ErrorHandler: middlewares.ErrorHandler,
 	})
 
 	app.Use(cors.New())

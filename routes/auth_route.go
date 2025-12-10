@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"backend/constants"
 	"backend/services/auth_service"
 	"backend/types"
 
@@ -8,16 +9,18 @@ import (
 )
 
 func AuthRouter(Router fiber.Router) {
-
 	Router.Post("/login", func(c *fiber.Ctx) error {
 		var Payload types.LoginRequestElements
 		if err := c.BodyParser(&Payload); err != nil {
-			panic(fiber.NewError(fiber.ErrBadRequest.Code, err.Error()))
+			return fiber.NewError(constants.STATUS_CODES.BAD_REQUEST, err.Error())
 		}
 
 		UserName := Payload.UserName
 		Password := Payload.Password
-		Token := auth_service.Login(UserName, Password)
-		return c.Status(200).JSON(Token)
+		Token, err := auth_service.Login(UserName, Password)
+		if err != nil {
+			return err
+		}
+		return c.Status(constants.STATUS_CODES.OK).JSON(Token)
 	})
 }

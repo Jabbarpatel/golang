@@ -1,11 +1,18 @@
 package exceptions
 
-import "fmt"
+import (
+	"fmt"
 
-func UserAlreadyExists(UserName string) string {
-	return fmt.Sprintf("%s This user name is already taken", UserName)
+	"backend/constants"
+)
+
+func UserAlreadyExists(UserName string) *Error {
+	return NewError(
+		constants.STATUS_CODES.CONFLICT,
+		fmt.Sprintf("%s This user name is already taken", UserName),
+	)
 }
 
-func UserNotFound() string {
-	return "User not found"
+func UserNotFound() *Error {
+	return NewError(constants.STATUS_CODES.CONFLICT, "User not found")
 }

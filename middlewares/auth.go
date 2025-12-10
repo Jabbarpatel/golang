@@ -10,16 +10,16 @@ import (
 
 var JWT_KEY = []byte("SoftwareDeveloper")
 
-func VerifyToken(Token string) jwt.MapClaims {
+func VerifyToken(Token string) (jwt.MapClaims, error) {
 	ValidToken, err := jwt.Parse(Token, func(t *jwt.Token) (any, error) {
 		return JWT_KEY, nil
 	})
 
 	if err != nil || !ValidToken.Valid {
-		panic(fiber.NewError(fiber.ErrBadRequest.Code, err.Error()))
+		return nil, fiber.NewError(401, err.Error())
 	}
 	Claims := ValidToken.Claims.(jwt.MapClaims)
-	return Claims
+	return Claims, nil
 }
 
 func LoginRequired(AllowedRoles []string) fiber.Handler {
@@ -30,7 +30,10 @@ func LoginRequired(AllowedRoles []string) fiber.Handler {
 		}
 
 		Token := strings.Split(Headers, " ")[1]
-		Claims := VerifyToken(Token)
+		Claims, err := VerifyToken(Token)
+		if err != nil {
+			return err
+		}
 		RequestedRole := Claims["Role"]
 
 		for _, v := range AllowedRoles {
