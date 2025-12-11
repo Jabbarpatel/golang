@@ -1,10 +1,10 @@
 services:
   backend:
-    build: .
+    build: ./backend
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     volumes:
-      - ./:/server/golang
+      - ./backend:/server/golang
     restart: always
     depends_on:
       - db
@@ -27,7 +27,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
-      - "8082:80"
+      - "8084:80"
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_DB_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DB_DATABASE}
@@ -36,6 +36,17 @@ services:
     restart: always
     env_file:
       - .env
+
+  jenkins:
+    image: jenkins:2.60.3-alpine
+    container_name: jenkins
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - ./project-data/jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    user: ${JENKINS_USER}
 
 networks:
   default:
