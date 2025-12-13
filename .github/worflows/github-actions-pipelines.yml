@@ -1,1 +1,35 @@
 name: CI/CD pipelines to build frontend and backend
+
+on:
+  push:
+    tag:
+      - "v*"
+    branch:
+      - "main"
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Set up Bun environment
+        uses: oven-sh/setup-bun@v1
+
+      - name: Install frontend dependancy
+        working-directory: frontend
+        run: bun Install
+
+      - name: Frontend lint errors
+        working-directory: frontend
+        run: bun lint
+
+      - name: Frontend typescript errors
+        working-directory: frontend
+        run: bun tsc
+
+      - name: Build frontend
+        working-directory: frontend
+        run: bun run build
