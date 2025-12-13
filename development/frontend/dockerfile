@@ -1,0 +1,13 @@
+FROM oven/bun:canary-alpine
+
+WORKDIR /yellowbook/frontend
+
+ADD package.json bun.lock /yellowbook/frontend/
+
+RUN bun install
+
+ADD . /yellowbook/frontend/
+
+EXPOSE 3000
+
+CMD [ "bun","run","dev" ]

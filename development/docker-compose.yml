@@ -1,10 +1,22 @@
 services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    volumes:
+      - ./frontend:/yellowbook/frontend
+    restart: always
+    depends_on:
+      - backend
+    env_file:
+      - .env
+
   backend:
     build: ./backend
     ports:
-      - "${SERVER_PORT}:${SERVER_PORT}"
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
     volumes:
-      - ./backend:/server/golang
+      - ./backend:/yellowbook/backend
     restart: always
     depends_on:
       - db
@@ -41,12 +53,14 @@ services:
     image: jenkins:2.60.3-alpine
     container_name: jenkins
     ports:
-      - "8080:8080"
+      - "${JENKINS_PORT}:${JENKINS_PORT}"
       - "50000:50000"
     volumes:
       - ./project-data/jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
     user: ${JENKINS_USER}
+    env_file:
+      - .env
 
 networks:
   default:
