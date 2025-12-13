@@ -50,7 +50,7 @@ services:
       - .env
 
   jenkins:
-    image: jenkins:2.60.3-alpine
+    image: jenkins/jenkins:lts-jdk17
     container_name: jenkins
     ports:
       - "${JENKINS_PORT}:${JENKINS_PORT}"
