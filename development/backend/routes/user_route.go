@@ -21,7 +21,7 @@ func UsersRouter(Router fiber.Router) {
 	Router.Post("/create_user", middlewares.LoginRequired([]string{constants.ROLES.DEVELOPER, constants.ROLES.ADMIN}), func(c *fiber.Ctx) error {
 		var Payload types.CreateUserRequestElements
 		if err := c.BodyParser(&Payload); err != nil {
-			return fiber.NewError(constants.STATUS_CODES.BAD_REQUEST, err.Error())
+			return err
 		}
 
 		UserName := Payload.UserName
@@ -57,13 +57,13 @@ func UsersRouter(Router fiber.Router) {
 	Router.Post("/update_user/:id", middlewares.LoginRequired([]string{constants.ROLES.DEVELOPER, constants.ROLES.ADMIN}), func(c *fiber.Ctx) error {
 		var Payload types.UpdateUserRequestElement
 		if err := c.BodyParser(&Payload); err != nil {
-			return fiber.NewError(constants.STATUS_CODES.BAD_REQUEST, err.Error())
+			return err
 		}
 		ID := Payload.ID
 		UserName := Payload.UserName
 		ContactInfo := Payload.ContactInfo
 		RoleID := Payload.RoleID
 		fmt.Println(ID, UserName, ContactInfo, RoleID)
-		return c.JSON("success")
+		return c.Status(constants.STATUS_CODES.OK).JSON(constants.STATUS.SUCCESS)
 	})
 }

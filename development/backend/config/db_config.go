@@ -12,7 +12,7 @@ import (
 var DB *gorm.DB
 
 func DBConnect() {
-	godotenv.Load()
+	godotenv.Load("../../.env")
 	MYSQL_PORT := os.Getenv("MYSQL_DB_PORT")
 	MYSQL_USER := os.Getenv("MYSQL_DB_USER")
 	MYSQL_PASSWORD := os.Getenv("MYSQL_DB_PASSWORD")
@@ -23,7 +23,6 @@ func DBConnect() {
 		MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_PORT, MYSQL_DATABASE)
 
 	connection, err := gorm.Open(mysql.Open(dsn))
-
 	if err != nil {
 		fmt.Println("Failed to connect to database!", err)
 		return

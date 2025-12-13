@@ -12,7 +12,7 @@ func AuthRouter(Router fiber.Router) {
 	Router.Post("/login", func(c *fiber.Ctx) error {
 		var Payload types.LoginRequestElements
 		if err := c.BodyParser(&Payload); err != nil {
-			return fiber.NewError(constants.STATUS_CODES.BAD_REQUEST, err.Error())
+			return err
 		}
 
 		UserName := Payload.UserName

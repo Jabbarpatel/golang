@@ -25,7 +25,7 @@ func main() {
 	godotenv.Load()
 	config.DBConnect()
 
-	PORT := os.Getenv("SERVER_PORT")
+	PORT := os.Getenv("BACKEND_PORT")
 
 	app := fiber.New(fiber.Config{
 		ErrorHandler: middlewares.ErrorHandler,
