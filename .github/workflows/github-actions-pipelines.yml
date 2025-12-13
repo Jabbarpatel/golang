@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       FRONTEND_IMAGE: ${{secrets.FRONTEND_IMAGE}}
-      BACKEND_IMAGE: ${{secrets.FRONTEND_IMAGE}}
+      BACKEND_IMAGE: ${{secrets.BACKEND_IMAGE}}
 
     steps:
       - name: Login to docker HUB
