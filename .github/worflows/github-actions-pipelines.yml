@@ -4,7 +4,7 @@ on:
   push:
     tag:
       - "v*"
-    branch:
+    branches:
       - "main"
 
 jobs:
