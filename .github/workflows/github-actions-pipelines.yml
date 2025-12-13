@@ -2,7 +2,7 @@ name: CI/CD pipelines to build frontend and backend
 
 on:
   push:
-    tag:
+    tags:
       - "v*"
     branches:
       - "main"
