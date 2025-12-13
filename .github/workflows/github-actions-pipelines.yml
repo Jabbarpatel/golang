@@ -20,7 +20,7 @@ jobs:
 
       - name: Install frontend dependancy
         working-directory: ./development/frontend
-        run: bun Install
+        run: bun install
 
       - name: Frontend lint errors
         working-directory: ./development/frontend
