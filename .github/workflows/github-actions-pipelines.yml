@@ -17,6 +17,13 @@ jobs:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
     steps:
+      - name: Debug pipeline context
+        run: |
+          echo "Git ref: $GITHUB_REF"
+          echo "Git tag: $GITHUB_REF_NAME"
+          echo "Frontend image: $FRONTEND_IMAGE"
+          echo "Runner OS: $(uname -a)"
+
       - name: Checkout source code
         uses: actions/checkout@v4
 
