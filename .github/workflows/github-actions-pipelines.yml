@@ -19,17 +19,17 @@ jobs:
         uses: oven-sh/setup-bun@v1
 
       - name: Install frontend dependancy
-        working-directory: frontend
+        working-directory: ./development/frontend
         run: bun Install
 
       - name: Frontend lint errors
-        working-directory: frontend
+        working-directory: ./development/frontend
         run: bun lint
 
       - name: Frontend typescript errors
-        working-directory: frontend
+        working-directory: ./development/frontend
         run: bun tsc
 
       - name: Build frontend
-        working-directory: frontend
+        working-directory: ./development/frontend
         run: bun run build
