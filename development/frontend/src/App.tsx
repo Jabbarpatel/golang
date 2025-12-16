@@ -1,30 +1,22 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
 import "./App.css";
+import { Button } from "@heroui/react";
+import Providers from "./components/Providers/Providers";
+import ReactModal from "./components/General/ReactModal";
+import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState<string>("0");
+  const [test, setTest] = useState(false);
+  const close = () => {
+    setTest(false);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + Jabbar </h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Providers>
+      <Button onPress={() => setTest(true)}>CLick</Button>
+      <ReactModal isOpen={test} title="Test" size="2xl" onClose={close}>
+        Thisi sisisiisisi
+      </ReactModal>
+    </Providers>
   );
 }
 

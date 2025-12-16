@@ -33,7 +33,7 @@ services:
     image: mysql:8.0.40
     container_name: development-database
     ports:
-      - "3308:${MYSQL_DB_PORT}"
+      - "3309:${MYSQL_DB_PORT}"
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_DB_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DB_DATABASE}
