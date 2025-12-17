@@ -66,6 +66,8 @@ jobs:
             TARGET="dev"
           else
             echo "Invalid tag format: $TAG"
+            exit 1
+          fi
 
           docker build --target $TARGET -t $FRONTEND_IMAGE:${GITHUB_REF_NAME} -f ./development/frontend/dockerfile ./development
           docker push $FRONTEND_IMAGE:${GITHUB_REF_NAME}
