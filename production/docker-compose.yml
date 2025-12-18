@@ -1,7 +1,6 @@
 services:
   frontend:
-    image: ${FRONTEND_IMAGE}:${VERSION}
-    container_name: yellowbook-production-frontend-${VERSION}
+    image: jabbarpatel/yellow-book-production-frontend:{VERSION}
     ports:
       - "80:${FRONTEND_PORT}"
     restart: always
@@ -9,8 +8,7 @@ services:
       - .env
 
   backend:
-    image: ${BACKEND_IMAGE}:${VERSION}
-    container_name: yellowbook-production-backend-${VERSION}
+    image: jabbarpatel/yellow-book-production-production:{VERSION}
     expose:
       - ${BACKEND_PORT}
     restart: always

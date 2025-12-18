@@ -38,5 +38,5 @@ func main() {
 	routes.AuthRouter(app.Group("/api/auth"))
 	routes.UsersRouter(app.Group("/api/users"))
 
-	app.Listen(":" + PORT)
+	app.Listen("0.0.0.0:" + PORT)
 }

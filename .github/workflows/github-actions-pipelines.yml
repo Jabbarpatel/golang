@@ -33,8 +33,10 @@ jobs:
       - build-frontend
     runs-on: ubuntu-latest
     env:
-      FRONTEND_IMAGE: ${{secrets.FRONTEND_IMAGE}}
-      BACKEND_IMAGE: ${{secrets.BACKEND_IMAGE}}
+      FRONTEND_DEV_IMAGE: jabbarpatel/yellow-book-development-frontend
+      BACKEND_DEV_IMAGE: jabbarpatel/yellow-book-development-backend
+      FRONTEND_PRO_IMAGE: jabbarpatel/yellow-book-production-frontend
+      BACKEND_PRO_IMAGE: jabbarpatel/yellow-book-production-backend
 
     steps:
       - name: Checkout source code
@@ -50,7 +52,24 @@ jobs:
       - name: Push frontend and backend image to docker HUB
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          docker build --target prod -t $FRONTEND_IMAGE:${GITHUB_REF_NAME} -f ./development/frontend/dockerfile ./development
+
+          TAG=${GITHUB_REF_NAME}
+          if [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]];then
+            echo "Detected PRO tag: $TAG"
+            FRONTEND_IMAGE=$FRONTEND_PRO_IMAGE
+            BACKEND_IMAGE=$BACKEND_PRO_IMAGE
+            TARGET="prod"
+          elif [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-dev$ ]];then
+            echo "Detected DEV tag: $TAG"
+            FRONTEND_IMAGE=$FRONTEND_DEV_IMAGE
+            BACKEND_IMAGE=$BACKEND_DEV_IMAGE
+            TARGET="dev"
+          else
+            echo "Invalid tag format: $TAG"
+            exit 1
+          fi
+
+          docker build --target $TARGET -t $FRONTEND_IMAGE:${GITHUB_REF_NAME} -f ./development/frontend/dockerfile ./development
           docker push $FRONTEND_IMAGE:${GITHUB_REF_NAME}
-          docker build --target prod -t $BACKEND_IMAGE:${GITHUB_REF_NAME} -f ./development/backend/dockerfile ./development
+          docker build --target $TARGET -t $BACKEND_IMAGE:${GITHUB_REF_NAME} -f ./development/backend/dockerfile ./development
           docker push $BACKEND_IMAGE:${GITHUB_REF_NAME}
