@@ -1,61 +1,36 @@
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Divider,
-} from "@heroui/react";
-import { JSX, ReactNode } from "react";
+import React, { ReactNode, JSX } from "react";
+import { Divider, Modal } from "rsuite";
 
-export type Props = {
-  isOpen: boolean;
+type Props = {
+  open: boolean;
   children: ReactNode;
   title?: string | JSX.Element;
-  size?:
-    | "xs"
-    | "sm"
-    | "md"
-    | "lg"
-    | "xl"
-    | "2xl"
-    | "3xl"
-    | "4xl"
-    | "5xl"
-    | "full";
-  footer?: () => JSX.Element | null;
-  onClose?: () => void;
+  size?: "xs" | "sm" | "md" | "lg" | "full";
+  handleFooter?: () => JSX.Element | string | null;
+  handleClose?: () => void;
 };
 
 const ReactModal = ({
-  isOpen,
-  title,
+  open,
   children,
-  size = "2xl",
-  footer = () => <span>This is footer</span>,
-  onClose = () => {},
-  ...props
+  title = "This is title",
+  size = "lg",
+  handleFooter = () => "This is footer",
+  handleClose = () => {},
 }: Props) => {
   return (
-    <Modal
-      isOpen={isOpen}
-      size={size}
-      placement="top"
-      onClose={onClose}
-      {...props}
-    >
-      <ModalContent>
-        <ModalHeader className="flex flex-col gap-1" {...props}>
-          {title}
-        </ModalHeader>
+    <>
+      <Modal open={open} onClose={handleClose} size={size}>
+        <Modal.Header>
+          <Modal.Title style={{ fontWeight: "bold" }}>{title}</Modal.Title>
+        </Modal.Header>
         <Divider />
-        <ModalBody style={{ padding: 10 }} {...props}>
-          {children}
-        </ModalBody>
+        <Modal.Body>{children}</Modal.Body>
         <Divider />
-        <ModalFooter {...props}>{footer()}</ModalFooter>
-      </ModalContent>
-    </Modal>
+        <Modal.Footer>{handleFooter()}</Modal.Footer>
+      </Modal>
+    </>
   );
 };
+
 export default ReactModal;

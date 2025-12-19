@@ -1,7 +1,11 @@
-import React from "react";
-import { Box, Text } from "rsuite";
+import React, { ReactNode } from "react";
+import { Box } from "rsuite";
 
-const ReactContainer = () => {
+type Props = {
+  children: ReactNode;
+};
+
+const ReactContainer = ({ children }: Props) => {
   return (
     <Box
       style={{
@@ -20,9 +24,7 @@ const ReactContainer = () => {
           width: "100%",
         }}
       >
-        <Text align="center" size="lg">
-          Container With Visible Shadow
-        </Text>
+        {children}
       </Box>
     </Box>
   );
