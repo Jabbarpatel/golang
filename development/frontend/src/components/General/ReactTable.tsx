@@ -4,25 +4,25 @@ import { Table } from "rsuite";
 const { Column, HeaderCell, Cell } = Table;
 
 type Props = {
-  height: number;
   data: object[];
   headers: string[];
   datakeys: string[];
-  onRowClick: (value: object) => void;
-  isActions: boolean;
-  actions: () => JSX.Element | null;
+  height?: number;
+  onRowClick?: (value: object) => void | undefined;
+  isActions?: boolean;
+  actions?: () => JSX.Element | null;
   headerWidth?: number;
   columnWidth?: number;
 };
 
 const ReactTable = ({
-  height = 400,
   headerWidth = 100,
   columnWidth = 100,
   data,
   headers,
   datakeys,
-  onRowClick,
+  height = 400,
+  onRowClick = undefined,
   isActions,
   actions,
 }: Props) => {
@@ -36,11 +36,7 @@ const ReactTable = ({
     >
       {headers.length > 0 &&
         headers.map((item: string, index: number) => (
-          <Column
-            width={headerWidth}
-            align="center"
-            fixed={datakeys[index] === "id" ? "left" : false}
-          >
+          <Column width={headerWidth} align="center" fixed>
             <HeaderCell style={{ fontWeight: "bold", fontSize: 15 }}>
               {item}
             </HeaderCell>

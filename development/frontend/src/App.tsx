@@ -1,8 +1,12 @@
-import "./App.css";
 import "rsuite/dist/rsuite.css";
+import "./App.css";
 
 function App() {
-  return "This is OKKKKKKKKKK";
+  return (
+    <div>
+      This is ok BOSS
+    </div>
+  );
 }
 
 export default App;
