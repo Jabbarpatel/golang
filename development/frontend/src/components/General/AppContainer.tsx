@@ -1,11 +1,12 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { Box } from "rsuite";
+import { Colors } from "@/colors/Colors";
 
 type Props = {
   children: ReactNode;
 };
 
-const ReactContainer = ({ children }: Props) => {
+const AppContainer = ({ children }: Props) => {
   return (
     <Box
       style={{
@@ -17,11 +18,13 @@ const ReactContainer = ({ children }: Props) => {
       <Box
         p={20}
         rounded={12}
-        bg="#fff"
+        bg={Colors.softSkyBlue}
         shadow="xl"
         style={{
           height: "92vh",
           width: "100%",
+          overflowY: "auto",
+          scrollbarWidth: "thin",
         }}
       >
         {children}
@@ -30,4 +33,4 @@ const ReactContainer = ({ children }: Props) => {
   );
 };
 
-export default ReactContainer;
+export default AppContainer;

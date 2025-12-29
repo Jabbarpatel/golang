@@ -13,9 +13,8 @@ var ROLES = struct {
 	USER      string
 	DEVELOPER string
 }{
-	ADMIN:     "admin",
-	USER:      "user",
-	DEVELOPER: "developer",
+	ADMIN: "Admin",
+	USER:  "User",
 }
 
 var STATUS_CODES = struct {

@@ -1,8 +1,13 @@
 package types
 
-type GetAllUsersResponse struct {
-	ID       int    `json:"ID"`
-	UserName string `json:"UserName"`
+type GetUsersResponse struct {
+	ID          int    `json:"ID"`
+	UserName    string `json:"UserName"`
+	CreatedBy   string `json:"CreatedBy"`
+	CreatedAt   string `json:"CreatedAt"`
+	ContactInfo string `json:"ContactInfo"`
+	IsActive    bool   `json:"IsActive"`
+	Role        string `json:"Role"`
 }
 
 type CreateUserRequestElements struct {
@@ -14,8 +19,9 @@ type CreateUserRequestElements struct {
 }
 
 type UpdateUserRequestElement struct {
-	ID          string `json:"ID"`
+	ID          int    `json:"ID"`
 	UserName    string `json:"UserName"`
 	ContactInfo string `json:"ContactInfo"`
-	RoleID      int    `json:"RoleID"`
+	Role        string `json:"Role"`
+	Active      int    `json:"Active"`
 }

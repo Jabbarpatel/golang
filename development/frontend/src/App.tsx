@@ -1,11 +1,17 @@
 import "rsuite/dist/rsuite.css";
 import "./App.css";
+import AppContainer from "./components/General/AppContainer";
+import Header from "./components/General/AppHeader";
+import AppRoutes from "./components/General/AppRoutes";
 
 function App() {
   return (
-    <div>
-      This is ok BOSS
-    </div>
+    <>
+      <Header />
+      <AppContainer>
+        <AppRoutes />
+      </AppContainer>
+    </>
   );
 }
 

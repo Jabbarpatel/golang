@@ -1,9 +1,8 @@
-import React from "react";
-import { Notification, useToaster } from "rsuite";
+import { Notification, useToaster, NotificationProps } from "rsuite";
 
 type NotificationType = "info" | "success" | "warning" | "error";
 
-type NotifyOptions = {
+type NotifyOptions = NotificationProps & {
   message: string;
   description?: string;
   type?: NotificationType;
@@ -11,7 +10,7 @@ type NotifyOptions = {
   duration?: number;
 };
 
-export const useReactNotification = () => {
+export const AppNotification = () => {
   const toaster = useToaster();
 
   const notify = ({
@@ -20,9 +19,16 @@ export const useReactNotification = () => {
     type = "info",
     placement = "topEnd",
     duration = 4000,
+    ...props
   }: NotifyOptions) => {
     toaster.push(
-      <Notification type={type} header={message} closable>
+      <Notification
+        type={type}
+        header={message}
+        style={{ minWidth: 400 }}
+        closable
+        {...props}
+      >
         {description && <p>{description}</p>}
       </Notification>,
       { placement, duration }

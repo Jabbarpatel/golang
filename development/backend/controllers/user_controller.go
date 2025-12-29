@@ -9,10 +9,22 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func GetAllUsers() []types.GetAllUsersResponse {
-	var Users []types.GetAllUsersResponse
-	config.DB.Table("users").Select("id", "user_name").Find(&Users)
+func GetAllUsers() []types.GetUsersResponse {
+	var Users []types.GetUsersResponse
+	config.DB.Table("users").Select("id", "user_name", "created_by", "created_at", "contact_info", "is_active", "role").Find(&Users)
 	return Users
+}
+
+func GetUsersByPage(Offset int, PageSize int) []types.GetUsersResponse {
+	var Users []types.GetUsersResponse
+	config.DB.Table("users").Select("id", "user_name", "created_by", "created_at", "contact_info", "is_active", "role").Limit(PageSize).Offset(Offset).Find(&Users)
+	return Users
+}
+
+func GetUsersCount() int64 {
+	var Count int64
+	config.DB.Table("users").Count(&Count)
+	return Count
 }
 
 func GetUserByName(UserName string) *models.Users {
@@ -62,7 +74,7 @@ func ReactivateUser(ID int) error {
 }
 
 func UpdateUser(ID int, UserName string, ContactInfo string, Role string, Active int) error {
-	if err := config.DB.Table("users").Where(&models.Users{ID: ID}).Updates(map[string]interface{}{
+	if err := config.DB.Table("users").Where(&models.Users{ID: ID}).Updates(map[string]any{
 		"user_name":    UserName,
 		"contact_info": ContactInfo,
 		"role":         Role,

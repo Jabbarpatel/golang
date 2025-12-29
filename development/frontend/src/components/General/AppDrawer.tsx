@@ -1,7 +1,7 @@
-import React, { JSX, ReactNode } from "react";
-import { Drawer, Divider } from "rsuite";
+import { JSX, ReactNode } from "react";
+import { Drawer, Divider, DrawerProps } from "rsuite";
 
-export type Props = {
+export type Props = DrawerProps & {
   open: boolean;
   children: ReactNode;
   handleClose?: () => void;
@@ -10,16 +10,17 @@ export type Props = {
   footer?: () => JSX.Element | null;
 };
 
-const ReactDrawer = ({
+const AppDrawer = ({
   open,
   children,
   handleClose = () => {},
   size = "xs",
   title = "This is title",
   footer = () => <span>This is footer</span>,
+  ...props
 }: Props) => {
   return (
-    <Drawer open={open} onClose={handleClose} size={size}>
+    <Drawer open={open} onClose={handleClose} size={size} {...props}>
       <Drawer.Header>
         <Drawer.Title style={{ fontWeight: "bold" }}>{title}</Drawer.Title>
       </Drawer.Header>
@@ -38,4 +39,4 @@ const ReactDrawer = ({
   );
 };
 
-export default ReactDrawer;
+export default AppDrawer;

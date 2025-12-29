@@ -1,7 +1,7 @@
-import React, { ReactNode, JSX } from "react";
-import { Divider, Modal } from "rsuite";
+import { ReactNode, JSX } from "react";
+import { Divider, Modal, ModalProps } from "rsuite";
 
-type Props = {
+type Props = ModalProps & {
   open: boolean;
   children: ReactNode;
   title?: string | JSX.Element;
@@ -10,16 +10,17 @@ type Props = {
   handleClose?: () => void;
 };
 
-const ReactModal = ({
+const AppModal = ({
   open,
   children,
   title = "This is title",
   size = "lg",
   handleFooter = () => "This is footer",
   handleClose = () => {},
+  ...props
 }: Props) => {
   return (
-    <Modal open={open} onClose={handleClose} size={size}>
+    <Modal open={open} size={size} onClose={handleClose} {...props}>
       <Modal.Header>
         <Modal.Title style={{ fontWeight: "bold" }}>{title}</Modal.Title>
       </Modal.Header>
@@ -31,4 +32,4 @@ const ReactModal = ({
   );
 };
 
-export default ReactModal;
+export default AppModal;

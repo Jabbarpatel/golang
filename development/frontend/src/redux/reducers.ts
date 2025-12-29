@@ -1,21 +1,24 @@
-import { DECREAMENT, INCREAMENT } from "./actions";
+import { SET_TOKEN, SET_USER_LOGGED_IN } from "./actions";
 
 type State = {
-  count: number;
+  token: string;
+  userLoggedIn: boolean;
 };
 
 const initialState: State = {
-  count: 0,
+  token: "",
+  userLoggedIn: false,
 };
 
-export const Reducer = (state: State = initialState, action: {type:string}) => {
+export const AuthReducer = (
+  state: State = initialState,
+  action: { type: string; payload?: any }
+) => {
   switch (action.type) {
-    case INCREAMENT:
-      return { ...state, count: state.count + 1 };
-
-    case DECREAMENT:
-      return { ...state, count: state.count - 1 };
-
+    case SET_TOKEN:
+      return { ...state, token: action.payload };
+    case SET_USER_LOGGED_IN:
+      return { ...state, userLoggedIn: action.payload };
     default:
       return state;
   }
